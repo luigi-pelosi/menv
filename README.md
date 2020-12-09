@@ -1,4 +1,4 @@
-# egret-vue
+# Inizializzazioni
 
 ## Project setup
 ```

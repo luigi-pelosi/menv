@@ -36,10 +36,14 @@ const actions = {
     },
     login({ commit }, payload) {
         if (payload) {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 axios.post('/auth/login', payload)
                     .then(response => {
-                        console.log(response)
+                        commit('syncUser', response.data)
+                        resolve()
+                    })
+                    .catch(error => {
+                        reject(error.response.data)
                     })
             })
         }

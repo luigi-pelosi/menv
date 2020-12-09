@@ -42,6 +42,16 @@
         </v-card-text>
       </base-card>
     </div>
+    <v-snackbar
+        v-show="outcome"
+        :timeout="3000"
+        :value="outcome"
+        :color="outcome.color || 'error'"
+        absolute
+        centered
+    >
+      {{outcome.message}}
+    </v-snackbar>
   </div>
 </template>
 
@@ -54,6 +64,7 @@ export default {
     return {
       loading: false,
       valid: false,
+      outcome: '',
       email: '',
       password: '',
       passwordView: false,
@@ -72,7 +83,7 @@ export default {
   methods: {
     ...mapActions(['login']),
     submit() {
-      this.$refs.form.valid()
+      this.valid = this.$refs.form.validate()
       if (this.valid) {
         const credentials = {
           email: this.email,
@@ -80,6 +91,14 @@ export default {
         }
         this.loading = true
         this.login(credentials)
+            .then(() => {
+              this.loading = false
+              this.$router.push('/')
+            })
+            .catch(error => {
+              this.loading = false
+              this.outcome = { color: 'error', message: error }
+            })
       }
     }
   }

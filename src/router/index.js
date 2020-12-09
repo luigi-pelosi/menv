@@ -14,20 +14,21 @@
  */
 
 // Imports
-import Vue from "vue";
-import Router from "vue-router";
-import store from "@/store";
+import Vue from "vue"
+import Router from "vue-router"
+import store from "@/store"
+import ls from 'local-storage'
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   scrollBehavior: (to, from, savedPosition) => {
-    if (to.hash) return { selector: to.hash };
-    if (savedPosition) return savedPosition;
+    if (to.hash) return { selector: to.hash }
+    if (savedPosition) return savedPosition
 
-    return { x: 0, y: 0 };
+    return { x: 0, y: 0 }
   },
   routes: [
     {
@@ -56,10 +57,20 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  const user = ls('user')
+  const token = ls('token')
+
+  if (
+      (!user || !token)
+      &&
+      (to.path !== '/auth/login' && to.path !== '/auth/register')
+  ) {
+    next('/auth/login')
+  }
   // If this isn't an initial page load.
   if (to.path) {
     // Start the route progress bar.
-    store.dispatch("changeThemeLoadingState", true);
+    store.dispatch("changeThemeLoadingState", true)
   }
   next();
 });
@@ -71,7 +82,7 @@ router.afterEach(() => {
   //   gullPreLoading.style.display = "none";
   // }
   // Complete the animation of the route progress bar.
-  setTimeout(() => store.dispatch("changeThemeLoadingState", false), 500);
+  setTimeout(() => store.dispatch("changeThemeLoadingState", false), 500)
   // NProgress.done();
   // if (isMobile) {
   // if (window.innerWidth <= 1200) {

@@ -47,7 +47,7 @@ const login = async (req, res, next) => {
             if (isPasswordValid) {
                 const token = jwt.sign(
                     { userId: user.id },
-                    process.env.JWT_SECRET,
+                    process.env.VUE_APP_JWT_SECRET,
                     { expiresIn: '1d' }
                 )
                 await User.findByIdAndUpdate(user.id, { token })
@@ -61,9 +61,9 @@ const login = async (req, res, next) => {
                     token
                 })
             }
-            return next(new Error('Utente inesistente o password errata!'))
+            return res.status(500).send('Utente inesistente o password errata! E2')
         }
-        return next(new Error('Utente inesistente o password errata!'))
+        return res.status(500).send('Utente inesistente o password errata! E1')
     } catch (error) {
         next(error)
     }

@@ -1,5 +1,6 @@
 module.exports = {
     url: 'mongodb://localhost:27017/smartfuel',
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }

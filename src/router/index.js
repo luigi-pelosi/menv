@@ -34,7 +34,14 @@ const router = new Router({
     {
       name: 'index',
       path: "/",
-      component: () => import("@/views/Index")
+      component: () => import("@/views/Index"),
+      children: [
+        {
+          name: 'users',
+          path: '/users',
+          component: () => import('@/views/users/Index')
+        }
+      ]
     },
     {
       name: 'auth',
@@ -67,9 +74,7 @@ router.beforeEach((to, from, next) => {
   ) {
     next('/auth/login')
   }
-  // If this isn't an initial page load.
   if (to.path) {
-    // Start the route progress bar.
     store.dispatch("changeThemeLoadingState", true)
   }
   next();

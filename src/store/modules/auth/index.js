@@ -47,6 +47,9 @@ const actions = {
                     })
             })
         }
+    },
+    logout({ commit }) {
+        return new Promise(resolve => resolve(commit('syncUser')))
     }
 }
 const getters = {

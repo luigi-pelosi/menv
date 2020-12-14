@@ -51,7 +51,7 @@ const login = async (req, res, next) => {
                     { expiresIn: '1d' }
                 )
                 await User.findByIdAndUpdate(user.id, { token })
-                res.status(200).json({
+                return res.status(200).json({
                     data: {
                         firstname: user.firstname,
                         lastname: user.lastname,
@@ -71,9 +71,7 @@ const login = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     const users = await User.find({})
-    res.status(200).json({
-        data: users
-    })
+    res.status(200).json(users)
 }
 
 const get = async (req, res, next) => {
@@ -81,12 +79,10 @@ const get = async (req, res, next) => {
         const userId = req.params.userId
         const user = await User.findById(userId)
         if (user) {
-            req.status(200).json({
-                data: user
-            })
+            return req.status(200).json(user)
         }
 
-        return next(new Error('Nessun utente trovato con quest\'id'))
+        return res.status(500).send('Nessun utente trovato!')
     } catch (error) {
         next(error)
     }
@@ -99,13 +95,13 @@ const update = async (req, res, next) => {
         await User.findByIdAndUpdate(userId, data)
         const user = await User.findById(userId)
         if (user) {
-            req.status(200).json({
+            return req.status(200).json({
                 data: user,
                 message: 'Utente aggiornato con successo'
             })
         }
 
-        return next(new Error('Utente non trovato o aggiornamento fallito'))
+        return res.status(500).send('Utente non aggiornato!')
     } catch (error) {
         next(error)
     }
@@ -115,7 +111,7 @@ const remove = async (req, res, next) => {
     try {
         const userId = req.params.userId
         await User.findByIdAndDelete(userId)
-        req.status(200).json({
+        return req.status(200).json({
             data: null,
             message: 'Utente eliminato con successo'
         })
@@ -132,7 +128,7 @@ const grant = (action, resource) => {
                 return next()
             }
             return res.status(401).json({
-                error: 'Non hai i permessi necessari per accedere/modificare questa risorsa'
+                message: 'Non hai i permessi necessari per accedere/modificare questa risorsa'
             })
         } catch (error) {
             next(error)
@@ -149,7 +145,7 @@ const proceed = async (req, res, next) => {
         }
 
         return res.status(401).json({
-            error: 'Devi essere loggato per poter accedere a questa risorsa'
+            message: 'Devi essere loggato per poter accedere a questa risorsa'
         })
     } catch (error) {
         next(error)

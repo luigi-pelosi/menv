@@ -7,6 +7,7 @@ import verticalSidebar from './modules/verticalSidebar'
 
 import ApplicationStates from './modules/states'
 import Auth from './modules/auth'
+import Users from './modules/users'
 
 // Load Vuex
 Vue.use(Vuex)
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     themeConfig,
     verticalSidebar,
     ApplicationStates,
-    Auth
+    Auth,
+    Users
   },
 })

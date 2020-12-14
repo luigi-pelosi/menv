@@ -15,20 +15,20 @@ const actions = {
     unload({ commit }) {
         commit('syncLoading', false)
     },
-    intercept() {
+    intercept({ commit, dispatch }) {
         axios.interceptors.request.use(config => {
-            this.load()
+            dispatch('load')
             return config
         }, error => {
-            this.unload()
+            dispatch('unload')
             return Promise.reject(error)
         })
 
         axios.interceptors.response.use(config => {
-            this.unload()
-            return response
+            dispatch('unload')
+            return config
         }, error => {
-            this.unload()
+            dispatch('unload')
             return Promise.reject(error)
         })
     },

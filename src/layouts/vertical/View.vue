@@ -20,7 +20,7 @@
       </v-expand-transition>
     </v-container>
     <div class="flex-grow-1"></div>
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </v-main>
 </template>
 
@@ -29,7 +29,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
-    AppFooter: () => import("./Footer"),
+    // AppFooter: () => import("./Footer"),
     // Customizer: () => import("@/layouts/common-drawer/Customizer"),
   },
   computed: {

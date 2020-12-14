@@ -4,26 +4,24 @@
     <component :is="getThemeMode.layout" />
     <!-- </keep-alive> -->
 
-    <FullscreenLoader :visible="isLoading"  />
+    <BaseFullscreenLoader :visible="isLoading"  />
   </v-app>
 </template>
 
 <script>
-import FullscreenLoader from '@/layouts/common-drawer/FullscreenLoader'
+import axios from '@/plugins/axios'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "Index",
-  components: {
-    FullscreenLoader
-  },
   computed: {
-    ...mapGetters(['getThemeMode', 'isLoading']),
+    ...mapGetters(['getThemeMode', 'isLoading', 'token']),
   },
   methods: {
     ...mapActions(['intercept'])
   },
   created() {
+    axios.tokenize(this.token)
     this.intercept()
   }
 };

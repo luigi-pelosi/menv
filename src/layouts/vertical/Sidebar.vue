@@ -93,7 +93,7 @@
               <v-btn small icon class="mr-2">
                 <v-icon small>mdi-email</v-icon>
               </v-btn>
-              <v-btn small icon class="mr-2">
+              <v-btn small icon class="mr-2" @click="logout().then(() => $router.go())">
                 <v-icon small>mdi-logout-variant</v-icon>
               </v-btn>
               <!-- <v-icon class="text-18 mr-2">mdi-inbox-multiple-outline</v-icon> -->
@@ -159,7 +159,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["changeVerticalSidebarDrawer", "changeVerticalSidebarMini"]),
+    ...mapActions(["changeVerticalSidebarDrawer", "changeVerticalSidebarMini", "logout"]),
     toggleSidebar() {
       this.changeVerticalSidebarMini();
       this.expandOnHover = !this.expandOnHover;
